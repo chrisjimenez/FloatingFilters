@@ -1,6 +1,4 @@
 # FloatingFilters 
-==================================================================
-
 
 For this project I wanted to make a mirror that would be interactive with the mouse. I thought it would be cool if the user had the option to pick which filter they wanted for the video feed. I also thought it would be cool for the user to make combinations of filters.
 
