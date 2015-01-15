@@ -1,3 +1,9 @@
+/*******
+* PictureSection.pde
+* By: Chris Jimenez
+*/
+
+
 class PictureSection {
   int xPos;
   int yPos;
@@ -30,8 +36,9 @@ class PictureSection {
     filterCount = (int)random(0, 5.4);
   }
 
-  //===============================================================
-  // displays pic section
+  /****
+  * displays pic section
+  */
   void display(PImage i) {
     primaryImage = i;
     sectionImage = new PImage(psWidth, psHeight);
@@ -53,8 +60,9 @@ class PictureSection {
     image(sectionImage, xPos, yPos);
   }
 
-  //======================================================================
-  //update pic section position
+  /****
+  * update pic section position
+  */
   void updatePosition() {
     xPos += xMove;
     yPos += yMove;
@@ -62,7 +70,7 @@ class PictureSection {
     xPos = constrain(xPos, 0, width-psWidth);
     yPos = constrain(yPos, 0, height-psHeight);
 
-    // do we need to bounce the rect?
+    // Each section must be counded within the sketch borders
     if (xPos >=  width-psWidth || xPos <= 0) {
       xMove = xMove * -1;
       if (!invert) filterCount++;
@@ -74,27 +82,26 @@ class PictureSection {
     }
   }
 
-
-  //=======================================================================
-  //using algorithm to capture section of image...
+  
+  /****
+  * using algorithm to capture section of image
+  */
   void updatePicSection() {
-    //initilize location of x,y position of section
+  
+    //  initilize location of x,y position of section
     int location = xPos + yPos*primaryImage.width;
 
-    //    for (int i = 0; i < sr.rectWidth; i++) {//for eahc pixel in the row
-    //      for (int j = 0; j < sr.rectHeight; j++) {//for each row of section
-    //        croppedImage.pixels[i+ j*sr.rectWidth] = userImage.pixels[location + i*sr.rectWidth];
-    //      }
-    //      location += width;//update location variable to next row of section
-    //    }
-
-    for (int i = 0; i < psWidth; i++) {//for each row of section
-      for (int j = 0; j < psHeight; j++) {//for each pixel at row
+  // for each pixel in the section, copy pixel from image to section
+    for (int i = 0; i < psWidth; i++) {
+      for (int j = 0; j < psHeight; j++) {
         sectionImage.pixels[i+ j*psWidth] = primaryImage.pixels[location + i +j*width];
       }
     }
   }
 
+  /****
+  * displays filter section
+  */
   void displayFilter(PImage i) {
     if (filterCount >5) filterCount = 0;
 
@@ -106,9 +113,10 @@ class PictureSection {
     if (filterCount == 5) i.filter(DILATE);
   }
 
-  //=======================================================
-  //determiness if picture section is pressed
-  //if so, then the whole pic will have that filter..
+  /****
+  * determiness if picture section is pressed
+  * if so, then the whole pic will have that filter..
+  */
   void isPressed() {
     if (mousePressed) {
       if (((mouseX >= xPos) && (mouseX <= xPos+psWidth)) &&
@@ -119,8 +127,9 @@ class PictureSection {
   }
 
 
-  //==========================================================================
-  //increase and decrease width and height of each section
+  /****
+  * increase and decrease width and height of each section
+  */
   void increaseWidthAndHeight() {
     psWidth++;
     psHeight++;
@@ -131,8 +140,9 @@ class PictureSection {
     psHeight--;
   }
 
-  //==========================================================================
-  //increase and decrease speed of each section
+  /****
+  * increases and decreases speed of each section/filter
+  */
   void increaseSpeed() {
     if (xMove < 4 && yMove < 4) {//set speed limit 
       xMove += 0.2;
