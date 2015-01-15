@@ -1,10 +1,18 @@
+/**
+* FloatingFilters.pde
+* By: Chris Jimenez
+*
+* Interactive mirror where you could select which filters you want
+* to use by clicking on them as they float on the screen.
+*/
+
 import processing.video.*;
 
-//video feed
+//  video feed
 Capture video1;
 
 
-//array of video sections....
+//  array of video sections....
 PictureSection[] vidSections = new PictureSection[4];
 
 float pixelAlpha = 100;
@@ -23,7 +31,6 @@ void setup() {
   } 
   else {
     video1 = new Capture(this, 320, 240);
-    //start video feed
     video1.start();
   }
 
@@ -34,8 +41,9 @@ void setup() {
   }
 }
 
-//===============================================================
-//draw function.....
+/**
+* Gets called repeatedly.
+*/
 void draw() {
   //check if video feed is ready...
   if (video1.available()) video1.read();
@@ -59,22 +67,23 @@ void draw() {
   }
 
   updateCount();
-}//end of draw function........
+}
 
-
-//======================================================================
-//updates the alpha count of the expanded pixels and ellipse
+/**
+* updates the alpha count of the expanded pixels and ellipse
+*/
 void updateCount() {
   if ((pixelAlpha > 250) || (pixelAlpha < 100)) {
     pixelCount *= -1;
   }
 
-  //update alpha values..
+  //  update alpha values..
   pixelAlpha += pixelCount;
 }
 
-//================================================================
-//if key is pressed...
+/**
+* Gets called when user presses the UP, DOWN, LEFT OR RIGHT arrow button
+*/
 void keyPressed() {
   if ( key == CODED) {
     if (keyCode == UP) {
