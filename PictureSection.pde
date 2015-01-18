@@ -1,4 +1,11 @@
+/****************************************************
+*  PictureSection class
+*  By: Chris Jimenez
+*
+*****************************************************/
+
 class PictureSection {
+  
   int xPos;
   int yPos;
   float xMove;
@@ -12,6 +19,9 @@ class PictureSection {
   PImage primaryImage;
   PImage sectionImage;
 
+  /**
+  *  CONSTRUCTOR
+  */
   PictureSection(PImage i) {
     primaryImage = i;//initialize primary image
     xPos = (int)random(30, width-psWidth);
@@ -22,7 +32,7 @@ class PictureSection {
 
     sectionImage = new PImage(psWidth, psHeight);
 
-    //load pixels for primary image and section image
+    // load pixels for primary image and section image
     // for manipulation later...
     primaryImage.loadPixels();
     sectionImage.loadPixels();
@@ -30,8 +40,9 @@ class PictureSection {
     filterCount = (int)random(0, 5.4);
   }
 
-  //===============================================================
-  // displays pic section
+  /**
+  *  Displays the picture section/filter
+  */
   void display(PImage i) {
     primaryImage = i;
     sectionImage = new PImage(psWidth, psHeight);
@@ -53,17 +64,18 @@ class PictureSection {
     image(sectionImage, xPos, yPos);
   }
 
-  //======================================================================
-  //update pic section position
+  /**
+  *  Updates the picture section
+  */
   void updatePosition() {
     xPos += xMove;
     yPos += yMove;
 
-    xPos = constrain(xPos, 0, width-psWidth);
-    yPos = constrain(yPos, 0, height-psHeight);
+    xPos = constrain(xPos, 0, width - psWidth);
+    yPos = constrain(yPos, 0, height - psHeight);
 
     // do we need to bounce the rect?
-    if (xPos >=  width-psWidth || xPos <= 0) {
+    if (xPos >=  width - psWidth || xPos <= 0) {
       xMove = xMove * -1;
       if (!invert) filterCount++;
     }
@@ -75,18 +87,12 @@ class PictureSection {
   }
 
 
-  //=======================================================================
-  //using algorithm to capture section of image...
+  /**
+  *  using algorithm to capture section of image...
+  */
   void updatePicSection() {
-    //initilize location of x,y position of section
+    // initilize location of x,y position of section
     int location = xPos + yPos*primaryImage.width;
-
-    //    for (int i = 0; i < sr.rectWidth; i++) {//for eahc pixel in the row
-    //      for (int j = 0; j < sr.rectHeight; j++) {//for each row of section
-    //        croppedImage.pixels[i+ j*sr.rectWidth] = userImage.pixels[location + i*sr.rectWidth];
-    //      }
-    //      location += width;//update location variable to next row of section
-    //    }
 
     for (int i = 0; i < psWidth; i++) {//for each row of section
       for (int j = 0; j < psHeight; j++) {//for each pixel at row
@@ -95,6 +101,9 @@ class PictureSection {
     }
   }
 
+  /**
+  *  Applies filter to the section
+  */
   void displayFilter(PImage i) {
     if (filterCount >5) filterCount = 0;
 
@@ -106,9 +115,10 @@ class PictureSection {
     if (filterCount == 5) i.filter(DILATE);
   }
 
-  //=======================================================
-  //determiness if picture section is pressed
-  //if so, then the whole pic will have that filter..
+  /**
+  *  determiness if picture section is pressed
+  *  if so, then the whole pic will have that filter..
+  */
   void isPressed() {
     if (mousePressed) {
       if (((mouseX >= xPos) && (mouseX <= xPos+psWidth)) &&

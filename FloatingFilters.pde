@@ -1,15 +1,26 @@
+/*****************************************************************
+* FloatingFilters.pde
+* By: Chris Jimenez
+*
+* Interactive mirror where you could select which filters you want
+* to use by clicking on them as they float on the screen.
+****************************************************************/
+
 import processing.video.*;
 
-//video feed
+// video feed
 Capture video1;
 
 
-//array of video sections....
+// array of video sections....
 PictureSection[] vidSections = new PictureSection[4];
 
 float pixelAlpha = 100;
 float pixelCount = 0.5;
 
+/**
+*  Gets called once initially, runs simple setup code. 
+*/
 void setup() {
   size(320, 240);
 
@@ -20,24 +31,23 @@ void setup() {
   if (cameras.length == 0) {
     println("There are no cameras available for capture.");
     exit();
-  } 
-  else {
+  } else {
     video1 = new Capture(this, 320, 240);
-    //start video feed
     video1.start();
   }
 
 
-  //construct array of vid sections 
+  // construct array of vid sections 
   for (int i = 0; i < vidSections.length;i++) {
     vidSections[i] = new PictureSection(video1);
   }
 }
 
-//===============================================================
-//draw function.....
+/**
+* Gets called repeatedly.
+*/
 void draw() {
-  //check if video feed is ready...
+  // check if video feed is ready...
   if (video1.available()) video1.read();
 
   image(video1, 0, 0, 320, 240);
@@ -52,29 +62,30 @@ void draw() {
     }
   }
 
-  //display vid sections..
+  // display vid sections..
   for (int i = 0; i < vidSections.length; i++) {
     println(i + " = " + vidSections[i].invert);
     vidSections[i].display(video1);
   }
 
   updateCount();
-}//end of draw function........
+}
 
-
-//======================================================================
-//updates the alpha count of the expanded pixels and ellipse
+/**
+*  updates the alpha count of the expanded pixels and ellipse
+*/
 void updateCount() {
   if ((pixelAlpha > 250) || (pixelAlpha < 100)) {
     pixelCount *= -1;
   }
 
-  //update alpha values..
+  //  update alpha values..
   pixelAlpha += pixelCount;
 }
 
-//================================================================
-//if key is pressed...
+/**
+*  Gets called when user presses the UP, DOWN, LEFT OR RIGHT arrow button
+*/
 void keyPressed() {
   if ( key == CODED) {
     if (keyCode == UP) {
@@ -89,7 +100,7 @@ void keyPressed() {
       }
     }
 
-    //left & right to control circle radius
+    // left & right to control circle radius
     if (keyCode == LEFT) {
       for (int i= 0; i< vidSections.length;i++) {
         vidSections[i].decreaseSpeed();
