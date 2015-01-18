@@ -129,8 +129,9 @@ class PictureSection {
   }
 
 
-  //==========================================================================
-  //increase and decrease width and height of each section
+  /**
+  *  increase and decrease width and height of each section
+  */
   void increaseWidthAndHeight() {
     psWidth++;
     psHeight++;
@@ -141,8 +142,9 @@ class PictureSection {
     psHeight--;
   }
 
-  //==========================================================================
-  //increase and decrease speed of each section
+  /**
+  *  increase and decrease speed of each section
+  */
   void increaseSpeed() {
     if (xMove < 4 && yMove < 4) {//set speed limit 
       xMove += 0.2;
